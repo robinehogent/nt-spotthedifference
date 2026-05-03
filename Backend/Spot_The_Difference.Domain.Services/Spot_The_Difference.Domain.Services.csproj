@@ -1,0 +1,21 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+	<PropertyGroup>
+		<TargetFramework>net9.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+	</PropertyGroup>
+
+	<ItemGroup>
+		<PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.0" />
+
+		<PackageReference Include="Pomelo.EntityFrameworkCore.MySql" Version="9.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+		<ProjectReference Include="..\Spot_The_Difference.Contracts\Spot_The_Difference.Contracts.csproj" />
+		<ProjectReference Include="..\Spot_The_Difference.Domain.Model\Spot_The_Difference.Domain.Model.csproj" />
+		<ProjectReference Include="..\Spot_The_Difference.Persistence.Entities\Spot_The_Difference.Persistence.Entities.csproj" />
+	</ItemGroup>
+
+</Project>

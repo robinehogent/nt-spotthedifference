@@ -1,0 +1,6 @@
+@Spot_The_Difference.API_HostAddress = http://localhost:5277
+
+GET {{Spot_The_Difference.API_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

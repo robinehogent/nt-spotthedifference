@@ -1,0 +1,63 @@
+# Build results
+bin/
+obj/
+[Bb]uild/
+[Bb]ld/
+
+# Visual Studio
+.vs/
+*.suo
+*.user
+*.userosscache
+*.sln.docstates
+
+# Visual Studio Code
+.vscode/
+
+# Rider / IntelliJ
+.idea/
+*.sln.iml
+
+# NuGet
+*.nupkg
+*.snupkg
+packages/
+*.nuget.props
+*.nuget.targets
+
+# Logs
+*.log
+
+# User-specific
+*.rsuser
+
+# Temporary / misc
+[Tt]emp/
+*.tmp
+*.bak
+
+# ASP.NET / IIS
+App_Data/
+aspnet_client/
+_ReSharper.Caches/
+
+# Publish / deploy
+publish/
+*.Publish.xml
+*.pubxml
+*.pubxml.user
+
+# Entity Framework / migrations artifacts
+migrations/
+
+# Coverage / test output
+TestResults/
+coverage/
+*.coverage
+*.coveragexml
+
+# System files
+[Dd]esktop.ini
+[Tt]humbs.db
+*.swp
+*.DS_Store
