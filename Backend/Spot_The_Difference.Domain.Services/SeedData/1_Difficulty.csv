@@ -1,0 +1,6 @@
+﻿DifficultyId,Name,QuestionCount,DifferenceCount,TimeLimitSeconds
+1, "Easy", 1, 1, 30
+2, "Easy 2", 1, 1, 25
+3, "Medium 1", 1, 1, 20
+4, "Medium 2", 1, 1, 15
+5, "Hard", 1, 1, 10

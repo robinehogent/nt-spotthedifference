@@ -1,0 +1,47 @@
+services:
+
+  backend:
+    build:
+      context: ./Backend
+      dockerfile: Dockerfile
+    container_name: ${BACKEND_CONTAINER_NAME}
+    restart: unless-stopped
+    environment:
+      - ASPNETCORE_URLS=http://+:${INTERNAL_BACKEND_PORT:-8080}
+      
+      - MYSQL_CONNECTION=${MYSQL_CONNECTION}
+      - ADMIN_JWT_SECRET=${ADMIN_JWT_SECRET}
+      
+      # Logging
+      - Logging__LogLevel__Default=${LOGLEVEL:-information}
+      - Logging__LogLevel__Microsoft.AspNetCore=${LOGLEVEL:-information}
+      - Logging__LogLevel__Microsoft.EntityFrameworkCore.Database.Command=${SQLLOGLEVEL:-information}
+      - TRACE_SQL_WITH_DATA=${TRACE_SQL_WITH_DATA:-false}
+      
+      # CORS
+      - Cors__AllowedOrigins=http://localhost:${EXTERNAL_FRONTEND_PORT}
+      - Cors__AllowedMethods=GET,POST,PUT,DELETE,PATCH,OPTIONS
+      
+    ports:
+      - "${EXTERNAL_BACKEND_PORT:-5187}:${INTERNAL_BACKEND_PORT:-8080}"
+    
+  frontend:
+    build: 
+      context: ./Frontend
+      dockerfile: Dockerfile
+      args:
+        - VITE_API_URL=${VITE_API_URL}
+        - MINIFY=${MINIFY:-true}
+    container_name: ${FRONTEND_CONTAINER_NAME}
+    depends_on:
+      - backend
+    environment:
+      # backend port and hosts
+      - EXTERNAL_BACKEND_HOST=${APPLICATIONNAME}-backend
+      - EXTERNAL_BACKEND_PORT=${INTERNAL_BACKEND_PORT}
+      - INTERNAL_FRONTEND_PORT=${INTERNAL_FRONTEND_PORT}
+    ports:
+      - "${EXTERNAL_FRONTEND_PORT:-8080}:${INTERNAL_FRONTEND_PORT:-8080}"
+
+   
+
