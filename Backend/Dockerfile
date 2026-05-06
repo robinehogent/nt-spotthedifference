@@ -6,6 +6,7 @@ COPY Spot_The_Difference.API/Spot_The_Difference.API.csproj Spot_The_Difference.
 COPY Spot_The_Difference.Contracts/Spot_The_Difference.Contracts.csproj Spot_The_Difference.Contracts/
 COPY Spot_The_Difference.Domain.Model/Spot_The_Difference.Domain.Model.csproj Spot_The_Difference.Domain.Model/
 COPY Spot_The_Difference.Domain.Services/Spot_The_Difference.Domain.Services.csproj Spot_The_Difference.Domain.Services/
+COPY Spot_The_Difference.Domain.Services.Tests/Spot_The_Difference.Domain.Services.Tests.csproj Spot_The_Difference.Domain.Services.Tests/
 COPY Spot_The_Difference.Persistence/Spot_The_Difference.Persistence.csproj Spot_The_Difference.Persistence/
 COPY Spot_The_Difference.Persistence.Entities/Spot_The_Difference.Persistence.Entities.csproj Spot_The_Difference.Persistence.Entities/
 
