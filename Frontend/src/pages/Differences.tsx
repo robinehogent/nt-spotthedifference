@@ -1,4 +1,4 @@
-import { useState, useRef } from "react";
+import { useState } from "react";
 import { type MouseEvent } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { t } from "../translations";
@@ -9,13 +9,13 @@ export default function Differences() {
   const navigate = useNavigate();
   const { id } = useParams();
 
+  const originalImageSrc = localStorage.getItem("currentLevelImage");
   const imageSrc = localStorage.getItem("currentLevelDiffImage");
 
   const [message, setMessage] = useState<string>(t("clickDifference"));
   const [markers, setMarkers] = useState<
-    { x: number; y: number; color: string }[]
+    { xPercent: number; yPercent: number; color: string }[]
   >([]);
-  const imgRef = useRef<HTMLImageElement>(null);
   const [locked, setLocked] = useState(false);
 
   const handleImageClick = async (e: MouseEvent<HTMLImageElement>) => {
@@ -26,6 +26,8 @@ export default function Differences() {
 
     const clickX = e.clientX - rect.left;
     const clickY = e.clientY - rect.top;
+    const xPercent = clickX / rect.width;
+    const yPercent = clickY / rect.height;
 
     const scaleX = img.naturalWidth / img.width;
     const scaleY = img.naturalHeight / img.height;
@@ -51,7 +53,7 @@ export default function Differences() {
         setMessage(t("correct"));
         setMarkers((prev) => [
           ...prev,
-          { x: clickX, y: clickY, color: "green" },
+          { xPercent, yPercent, color: "green" },
         ]);
         setLocked(true);
 
@@ -60,7 +62,7 @@ export default function Differences() {
         }, 1500);
       } else {
         setMessage(t("miss"));
-        setMarkers((prev) => [...prev, { x: clickX, y: clickY, color: "red" }]);
+        setMarkers((prev) => [...prev, { xPercent, yPercent, color: "red" }]);
       }
     } catch (error) {
       console.error(error);
@@ -68,7 +70,7 @@ export default function Differences() {
     }
   };
 
-  if (!imageSrc)
+  if (!imageSrc || !originalImageSrc)
     return (
       <div style={{ textAlign: "center", marginTop: 50 }}>
         {t("noImageError")}
@@ -79,35 +81,56 @@ export default function Differences() {
     <div style={{ textAlign: "center", height: "100vh", padding: 20 }}>
       <h2 style={{ marginBottom: 20 }}>{message}</h2>
 
-      <div style={{ position: "relative", display: "inline-block" }}>
-        <img
-          ref={imgRef}
-          src={imageSrc}
-          alt="Find differences"
-          onClick={handleImageClick}
-          style={{
-            maxWidth: "100%",
-            maxHeight: "80vh",
-            cursor: "crosshair",
-            border: "2px solid black",
-            display: "block",
-          }}
-        />
-
-        {markers.map((m, index) => (
+      <div
+        style={{
+          display: "flex",
+          justifyContent: "center",
+          gap: 20,
+          alignItems: "flex-start",
+          flexWrap: "wrap",
+        }}
+      >
+        {[
+          { src: originalImageSrc, alt: "Original image" },
+          { src: imageSrc, alt: "New image" },
+        ].map((image) => (
           <div
-            key={index}
+            key={image.alt}
             style={{
-              position: "absolute",
-              left: m.x - 20,
-              top: m.y - 20,
-              width: "40px",
-              height: "40px",
-              border: `3px solid ${m.color}`,
-              borderRadius: "50%",
-              pointerEvents: "none",
+              position: "relative",
+              display: "inline-block",
             }}
-          />
+          >
+            <img
+              src={image.src}
+              alt={image.alt}
+              onClick={handleImageClick}
+              style={{
+                maxWidth: "min(44vw, 700px)",
+                width: "100%",
+                maxHeight: "80vh",
+                cursor: "crosshair",
+                border: "2px solid black",
+                display: "block",
+              }}
+            />
+
+            {markers.map((m, index) => (
+              <div
+                key={`${image.alt}-${index}`}
+                style={{
+                  position: "absolute",
+                  left: `calc(${m.xPercent * 100}% - 20px)`,
+                  top: `calc(${m.yPercent * 100}% - 20px)`,
+                  width: "40px",
+                  height: "40px",
+                  border: `3px solid ${m.color}`,
+                  borderRadius: "50%",
+                  pointerEvents: "none",
+                }}
+              />
+            ))}
+          </div>
         ))}
       </div>
     </div>

@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import { useState, useRef, type ChangeEvent, type MouseEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { t } from "../translations";
 
@@ -33,7 +33,7 @@ const AdminPage = () => {
     else alert(t("wrongPass"));
   };
 
-  const handleFile2Change = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleFile2Change = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files && e.target.files[0]) {
       const file = e.target.files[0];
       setFile2(file);
@@ -42,7 +42,7 @@ const AdminPage = () => {
     }
   };
 
-  const handleImageClick = (e: React.MouseEvent<HTMLImageElement>) => {
+  const handleImageClick = (e: MouseEvent<HTMLImageElement>) => {
     if (!imgRef.current) return;
     const rect = imgRef.current.getBoundingClientRect();
     const x = e.clientX - rect.left;
